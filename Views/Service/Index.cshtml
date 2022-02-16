@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Register users";
+    var serviceTypes = (Dictionary<int, string>)ViewData["servicetypes"];
+    var data = (Dictionary<string, string>)ViewData["data"];
+}
+
+@if((bool)ViewData["resolved"])
+{
+    <script>
+        alert("@ViewData["status"]");
+    </script>
+}
+
+<div class="container bg-light" style="margin-bottom: 5%;">
+  <main>
+    <div class="py-5 text-center">
+      <img class="d-block mx-auto mb-4" src="/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+      <!--<h2></h2> -->
+    </div>
+    <div class="row g-5">
+        <h4 class="mb-3">New service information</h4>
+        <form class="needs-validation" method="post">
+
+            <div class="col-md-12">
+              <label for="state" class="form-label">Service type</label>
+              <select name="type" class="form-select" id="type" required>
+                  @foreach (var serviceType in serviceTypes)
+                  {
+                      <option value="@serviceType.Key">
+                          @serviceType.Value
+                      </option>
+                  }
+              </select>
+              <div class="invalid-feedback">
+                Please provide a valid service.
+              </div>
+            </div>
+
+            <div class="col-12" style="margin-top:2%;">
+              <label for="number" class="form-label">Client number</label>
+              <input name="ID" type="number" required class="form-control" id="number">
+              <div class="invalid-feedback">
+                Please enter a valid customer number or email
+              </div>
+            </div>
+            <div class="row g-5" style="margin-top: 1%;">
+            <div class="col-md-5">
+              <label for="location" class="form-label">Location</label>
+              <input type="text" readonly class="form-control" id="location" value="@data["LocationName"]" required>
+              <div class="invalid-feedback">
+                A location must be selected
+              </div>
+            </div>
+
+            <div class="col-md-5">
+              <label for="branch" class="form-label">Branch</label>
+              <input type="text" class="form-control" readonly id="Branch" value="@data["BranchName"]"  required>
+              <div class="invalid-feedback">
+                A Branch must be selected
+              </div>
+            </div>
+            </div>
+                        <div class="row g-5" style="margin-top: 1%;">
+                            <div class="col-6">
+                                <label for="Date" class="form-label">Date of register</label>
+                              <input type="text" class="form-control" readonly id="Date" value=""  required>
+                                <script>
+                                    var today = new Date();
+                                    var dd = String(today.getDate()).padStart(2, '0');
+                                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                                    var yyyy = today.getFullYear();
+                                   document.getElementById("Date").value = mm + '/' + dd + '/' + yyyy;
+                                </script> 
+                          </div>
+                        </div>
+
+          <hr class="my-4">
+          <button class="w-100 btn btn-primary btn-lg" style="margin-bottom: 2%;" type="submit">Add Service</button>
+        </form>
+    </div>
+  </main>
+</div>

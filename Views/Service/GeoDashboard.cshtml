@@ -1,0 +1,51 @@
+﻿@using Syncfusion.EJ2.Maps;
+@{
+    ViewData["Title"] = "Home Page";
+    var tooltip = new MapsTooltipSettings
+    {
+        Visible = true,
+        ValuePath = "maptooltip"
+    };
+    var border = new MapsBorder
+    {
+        Width = 2,
+        Color = "green",
+        Opacity = 1
+    };
+        var margin = new Syncfusion.EJ2.Maps.MapsMargin
+    {
+        Bottom = 0,
+        Top = 0,
+        Left = 0,
+        Right = 0
+    };
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <ejs-grid id="Grid" dataSource="@ViewData["locations"]" allowPaging="true" allowSorting="true" allowFiltering="true" allowGrouping="true" >
+               <e-grid-pagesettings pageSize="8d"></e-grid-pagesettings>
+                <e-grid-columns>
+                   <e-grid-column field="Name" headerText="Location name" onclick="mapRefresh()" width="120"></e-grid-column>
+                   <e-grid-column field="numberofservices" headerText="number of services" width="120"></e-grid-column>
+                  </e-grid-columns>
+            </ejs-grid>
+        </div>
+        <div class="col-6">
+            @using Syncfusion.EJ2;
+         <ejs-maps id="maps" theme="Material" background="#006994" margin="margin">
+        <e-maps-layers>
+            <e-maps-layer shapeData="@ViewData["Governorates"]" shapeDataPath="name" shapePropertyPath='new[] { "ADM2" }' dataSource="@ViewData["locations"]">
+                        <e-layersettings-markers>
+                            <e-layersettings-marker visible="true" shape="Circle" fill="white" 
+                                                    width="2" animationDuration="0" tooltipSettings="tooltip" 
+                                                    border="border" dataSource="@ViewData["locations"]">
+                            </e-layersettings-marker>
+                        </e-layersettings-markers>
+            </e-maps-layer>
+        </e-maps-layers>
+        </ejs-maps>
+        </div>
+    </div>
+</div>
